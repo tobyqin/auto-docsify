@@ -133,3 +133,4 @@ dmypy.json
 repo/
 site/
 deploy/
+.DS_Store
