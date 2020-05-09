@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="UTF-8">
+  <title>{site_name_better}</title>
+  <link rel="stylesheet" href="./docsify-libs/vue.css">
+  <link rel="stylesheet" href="./docsify-libs/mermaid.min.css">
+  <script src="./docsify-libs/mermaid.min.js"></script>
+  <style>
+    .app-name-link img {
+      width: 200px
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">Please Wait...</div>
+
+  <script>
+    var num = 0;
+    mermaid.initialize({
+      startOnLoad: false
+    });
+
+    window.$docsify = {
+      name: '{site_name}',
+      //{site_logo}
+      autoHeader: false,
+      maxLevel: 4,
+      subMaxLevel: 4,
+      coverPage: false,
+      auto2top: true,
+      loadNavbar: {load_nav_bar},
+      loadSidebar: {load_side_bar},
+      relativePath: true,
+      homepage: 'README.md',
+      themeColor: 'rgb(5, 109, 174)',
+      formatUpdated: function (time) {
+        return time;
+      },
+      markdown: {
+        renderer: {
+          code: function (code, lang) {
+            if (lang === "mermaid") {
+              return (
+                '<div class="mermaid">' + mermaid.render('mermaid-svg-' + num++, code) + "</div>"
+              );
+            }
+            return this.origin.code.apply(this, arguments);
+          }
+        }
+      },
+      search: {
+        // Localization
+        placeholder: {
+          '/': 'Type to search'
+        },
+
+        noData: 'No Results!',
+
+        // Localization
+        noData: {
+          '/': 'No Results'
+        },
+
+        // Headline depth, 1 - 6
+        depth: 6,
+
+        // To avoid search index collision
+        // between multiple websites under the same domain
+        namespace: '{site_name_safe}',
+      },
+      plugins: [
+        function (hook, vm) {
+          hook.beforeEach(function (html) {
+            //{edit_doc_func}
+          });
+        }
+      ]
+    }
+  </script>
+  <script src="./docsify-libs/docsify.min.js"></script>
+  <script src="./docsify-libs/search.min.js"></script>
+  <script src="./docsify-libs/docsify-pagination.min.js"></script>
+  <script src="./docsify-libs/docsify-copy-code.min.js"></script>
+</body>
+
+</html>
