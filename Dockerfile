@@ -1,7 +1,7 @@
-FROM  python:latest
+FROM python:latest
 
 ENV DOC_REPO="" \
-    DOC_BRANCH="master" \
+    DOC_BRANCH="main" \
     DOC_INDEX="README.md" \
     DOC_DIR="docs" \
     DOC_REPO_URL="" \

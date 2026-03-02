@@ -37,6 +37,7 @@ load_side_bar = False
 load_nav_bar = True if site_nav else False
 
 
+
 def overwrite_file(src, dest):
     print(f'{src} => {dest}')
     p_dir = dirname(dest)
@@ -45,7 +46,7 @@ def overwrite_file(src, dest):
         os.remove(dest)
 
     if not exists(p_dir):
-        os.mkdir(p_dir)
+        os.makedirs(p_dir, exist_ok=True)
 
     copyfile(src, dest)
 
@@ -69,7 +70,7 @@ def incremental_copy_tree(src, dst):
 
             target_dir = dirname(target_name)
             if not exists(target_dir):
-                os.mkdir(target_dir)
+                os.makedirs(target_dir, exist_ok=True)
 
             copyfile(from_name, target_name)
 

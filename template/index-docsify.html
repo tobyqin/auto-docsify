@@ -54,23 +54,13 @@
         }
       },
       search: {
-        // Localization
         placeholder: {
           '/': 'Type to search'
         },
-
-        noData: 'No Results!',
-
-        // Localization
         noData: {
           '/': 'No Results'
         },
-
-        // Headline depth, 1 - 6
         depth: 6,
-
-        // To avoid search index collision
-        // between multiple websites under the same domain
         namespace: '{site_name_safe}',
       },
       plugins: [
@@ -82,10 +72,35 @@
       ]
     }
   </script>
-  <script src="./docsify-libs/docsify.min.js"></script>
-  <script src="./docsify-libs/search.min.js"></script>
-  <script src="./docsify-libs/docsify-pagination.min.js"></script>
-  <script src="./docsify-libs/docsify-copy-code.min.js"></script>
+  <script>
+    (function loadDocsifyAssets() {
+      var remoteAssets = [
+        'https://cdn.jsdelivr.net/npm/docsify@latest/lib/docsify.min.js',
+        'https://cdn.jsdelivr.net/npm/docsify@latest/lib/plugins/search.min.js',
+        'https://cdn.jsdelivr.net/npm/docsify-pagination@latest/dist/docsify-pagination.min.js',
+        'https://cdn.jsdelivr.net/npm/docsify-copy-code@latest/dist/docsify-copy-code.min.js',
+      ];
+
+      var localAssets = [
+        './docsify-libs/docsify.min.js',
+        './docsify-libs/search.min.js',
+        './docsify-libs/docsify-pagination.min.js',
+        './docsify-libs/docsify-copy-code.min.js',
+      ];
+
+      var loadScripts = function (assets) {
+        assets.forEach(function (url) {
+          var script = document.createElement('script');
+          script.src = url;
+          script.defer = true;
+          document.body.appendChild(script);
+        });
+      };
+
+      var isOfflineMode = window.location.protocol === 'file:';
+      loadScripts(isOfflineMode ? localAssets : remoteAssets);
+    })();
+  </script>
 </body>
 
 </html>

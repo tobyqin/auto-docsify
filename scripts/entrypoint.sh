@@ -1,9 +1,14 @@
 #! /bin/bash
+set -euo pipefail
 
 echo "Start ..."
 
-if [ -z ${DOC_REPO} ]; then
+if [ -z "${DOC_REPO:-}" ]; then
     export DOC_REPO="git@github.com:tobyqin/auto-docsify.git"
+fi
+
+if [ -z "${DOC_BRANCH:-}" ]; then
+    export DOC_BRANCH="main"
 fi
 
 NSS_WRAPPER_PASSWD=/tmp/passwd.nss_wrapper
@@ -20,14 +25,20 @@ export NSS_WRAPPER_GROUP
 LD_PRELOAD=/usr/lib64/libnss_wrapper.so
 export LD_PRELOAD
 
-cp -r /app/scripts/.ssh /app
-chmod 600 /app/.ssh/id_rsa
+if [ -d /app/scripts/.ssh ]; then
+    cp -r /app/scripts/.ssh /app
+    if [ -f /app/.ssh/id_rsa ]; then
+        chmod 600 /app/.ssh/id_rsa
+    fi
+fi
 
 mkdir -p /app/site
 mkdir -p /app/repo
 
 cd /app/repo
-git clone ${DOC_REPO}
+if [ ! -d "$(basename "$DOC_REPO" .git)" ]; then
+    git clone --branch "${DOC_BRANCH}" --single-branch "${DOC_REPO}"
+fi
 
 cd /app
 sh ${DOC_SITE_UPDATER}
